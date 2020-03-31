@@ -12,8 +12,11 @@ router.get('/codesynx' , (req , res) =>{
 
 router.get('/:synxid',(req,res) =>{
     console.log("synx id page visited");
-    res.send("synx id page visited");
     console.log(req.params.synxid);
+    var synxid = req.params.synxid;
+    res.render('../views/codesynx' , {
+        "synxid" : synxid
+    });
 });
 
 module.exports = router;

@@ -1,0 +1,25 @@
+<!-- codesynx ejs file-->
+
+<!DOCTYPE html>
+
+<head>
+    <title>CodeSynx</title>
+    
+</head>
+
+<body>
+    <div>
+        <h1>Welcome to CodeSynx</h1>
+        <h3>Share code with all fuckers</h3>
+        <h5>Your codeSynx Page id  :  <p><%= synxid %></p></h5>
+    </div>
+    <div>
+        <textarea id="codebox" cols="60" rows="40"></textarea>
+        <input type="button" name="send" id="send" value="send">
+    </div>
+    <script>
+        console.log(window.location.href);
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+    <script src="../scripts/codeSynxSocket.js"></script>
+</body>
