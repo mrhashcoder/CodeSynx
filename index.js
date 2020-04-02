@@ -35,7 +35,7 @@ io.on('connection' , function(socket){
         var roomId = data.synxid;
         socket.join(roomId);
         io.to(roomId).emit('code' , data);
-        //console.log(data);
+        console.log(data);
     });
 });
 
