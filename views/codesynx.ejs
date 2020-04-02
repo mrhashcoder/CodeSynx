@@ -1,7 +1,5 @@
-<!-- codesynx ejs file-->
-
 <!DOCTYPE html>
-
+<html>
 <head>
     <title>CodeSynx</title>
     
@@ -10,16 +8,30 @@
 <body>
     <div>
         <h1>Welcome to CodeSynx</h1>
-        <h3>Share code with all fuckers</h3>
-        <h5>Your codeSynx Page id  :  <p><%= synxid %></p></h5>
     </div>
     <div>
-        <textarea id="codebox" cols="60" rows="40"></textarea>
-        <input type="button" name="send" id="send" value="send">
+        <textarea id="codebox" cols="60" rows="40" oninput="managerCode()"></textarea>        
     </div>
-    <script>
-        console.log(window.location.href);
-    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
-    <script src="../scripts/codeSynxSocket.js"></script>
+    <script>        
+        const link = "http://localhost:4000";
+        var socket = io.connect(link);
+        //DOM
+        var codebox = document.getElementById('codebox');
+        var synxid = "<%= synxid %>";
+        console.log(synxid);       
+        function managerCode(){
+            socket.emit('code',{
+                code : codebox.value,
+                synxid : synxid
+            });
+        }
+
+        socket.on('code', function(data){
+            codebox.value = data.code;
+        });
+
+        console.log('fuck off');
+    </script>
+
 </body>

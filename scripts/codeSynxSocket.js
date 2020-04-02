@@ -1,1 +1,2 @@
-//console.log(window.location.href)
+console.log('hello world');
+console.log("hello fucking shit");
