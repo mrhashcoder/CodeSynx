@@ -1,17 +1,24 @@
 //getting  variable
 const express = require('express');
 const socket = require('socket.io');
+const mongoose = require('mongoose');
 const app = express();
+
+
+//VARIABLSE ::
+const mongoURI = "mongodb+srv://mrhashcoder:mansi8101@node-zafk9.mongodb.net/CodeSynx?retryWrites=true&w=majority";
 
 app.set('view engine' , 'ejs');
 
 
 //getting routes
 const codeSynxRouter = require("./routes/codesynx");
-
+const authRouter = require('./routes/auth');
 
 
 //using routes
+
+app.use(authRouter);
 app.use(codeSynxRouter);
 
 
@@ -19,6 +26,13 @@ app.use(codeSynxRouter);
 app.use(express.static('scripts'));
 
 //setting database
+
+//connecting database
+mongoose.connect(mongoURI , {
+    useNewUrlParser : true,
+    useUnifiedTopology: true
+}).then( console.log("database connected") );
+
 
 //starting server
 var server = app.listen('4000' , ()=>{
