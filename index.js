@@ -2,6 +2,8 @@
 const express = require('express');
 const socket = require('socket.io');
 const mongoose = require('mongoose');
+const flash = require('connect-flash');
+const bodyParser = require('body-parser');
 const app = express();
 
 
@@ -9,7 +11,7 @@ const app = express();
 const mongoURI = "mongodb+srv://mrhashcoder:mansi8101@node-zafk9.mongodb.net/CodeSynx?retryWrites=true&w=majority";
 
 app.set('view engine' , 'ejs');
-
+app.use(bodyParser.urlencoded({extended : true}));
 
 //getting routes
 const codeSynxRouter = require("./routes/codesynx");
@@ -23,16 +25,18 @@ app.use(codeSynxRouter);
 
 
 //serving static files
-app.use(express.static('scripts'));
-
+app.use(express.static('public'));
+app.use(flash());
 //setting database
 
 //connecting database
 mongoose.connect(mongoURI , {
     useNewUrlParser : true,
     useUnifiedTopology: true
-}).then( console.log("database connected") );
-
+}).then(() => {
+    console.log('connectedd');
+})
+    .catch(err =>{console.log(err)});
 
 //starting server
 var server = app.listen('4000' , ()=>{
@@ -47,10 +51,15 @@ io.on('connection' , function(socket){
     //console.log("made a connection :" + socket.id);
     socket.on('code' , function(data){
         var roomId = data.synxid;
-        socket.join(roomId);
         io.to(roomId).emit('code' , data);
         //console.log(data);
     });
+
+    socket.on('join' , function(data){
+        var roomId = data.synxid;        
+        socket.join(roomId);    
+                 
+    })
 });
 
 
