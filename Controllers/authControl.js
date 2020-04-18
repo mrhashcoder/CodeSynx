@@ -12,10 +12,15 @@ exports.postSignup = async (req , res ,next ) =>{
     var password = body.password;
     
     try{
-        const ifUserAvail = await User.findOne({email : email});
+        const ifUserAvail = await User.findOne({username : username});
+        const ifEmailAvail = await User.findOne({email : email});
 
         if(ifUserAvail){
-            console.log('email used!!');
+            console.log('username used!!');
+            res.redirect('/signup');
+        }
+        else if(ifEmailAvail){
+            console.log('Email Used!!');
             res.redirect('/signup');
         }
         else{
