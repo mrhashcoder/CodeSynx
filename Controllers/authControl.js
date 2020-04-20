@@ -7,10 +7,8 @@ const bcrypt = require('bcrypt');
 exports.postSignup = async (req , res ,next ) =>{
     const body = req.body;
     //console.log(body);
-    var username = body.username;
-    var email = body.email;
-    var password = body.password;
-    
+    var {username , email , password} = body;
+    console.log(username , email , password);
     try{
         const ifUserAvail = await User.findOne({username : username});
         const ifEmailAvail = await User.findOne({email : email});

@@ -19,11 +19,14 @@
   "dependencies": {
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
+    "codemirror": "^5.52.2",
     "connect-flash": "^0.1.1",
     "ejs": "^3.0.2",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "mongoose": "^5.9.9",
     "nodemon": "^2.0.2",
+    "session": "^0.1.0",
     "socket.io": "^2.3.0"
   }
 }

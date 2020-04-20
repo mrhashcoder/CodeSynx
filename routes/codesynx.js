@@ -6,7 +6,7 @@ router.get('/cs' , (req , res) =>{
     console.log('codesynx visited');
     //res.send('codesynx visited');
     var synxid = Math.floor(1000 + Math.random() * 9000);
-    console.log(synxid);
+    //console.log(synxid);
     res.redirect('/cs/' + synxid);
 });
 

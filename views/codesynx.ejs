@@ -2,6 +2,12 @@
 <html>
 <head>
     <title>CodeSynx</title>  
+    <script src="http://localhost:4000/codemirror/lib/codemirror.js"></script>
+    <script src="http://localhost:4000/codemirror/addon/edit/closetag.js"></script>
+    <script src="http://localhost:4000/codemirror/addon/edit/closebrackets.js"></script>
+    <link rel="stylesheet" href="http://localhost:4000/codemirror/theme/rubyblue.css">
+    <link rel="stylesheet" href="http://localhost:4000/codemirror/lib/codemirror.css">
+
 </head>
 <input type="hidden" id="synxId" value="<%= synxid %>">
 <body>
@@ -9,9 +15,18 @@
         <h1>Welcome to CodeSynx</h1>
     </div>
     <div>
-        <textarea id="codebox" cols="60" rows="40" oninput="managerCode()"></textarea>        
+        <textarea id="codebox" oninput="managerCode()"><p>hello</p></textarea>        
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
     <script src = "http://localhost:4000/socketSynx.js"></script>
 
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById('codebox'),{
+            theme: 'rubyblue',
+            lineNumbers : true,
+            autoCloseTags : true,
+            autoCloseBrackets : true,
+        });
+
+    </script>
 </body>
