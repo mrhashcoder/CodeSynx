@@ -1,4 +1,4 @@
-const User =  require('../models/user');
+const User =  require('../models/User');
 const bcrypt = require('bcrypt');
 
 
@@ -22,14 +22,18 @@ exports.postSignup = async (req , res ,next ) =>{
             res.redirect('/signup');
         }
         else{
-            const hashedPassword =  await bcrypt.hash(password , 12);
-            const user  = new User({
-                username : username,
-                email : email,
-                password : hashedPassword
-            });
-            await user.save();            
-            res.redirect('/login');
+            bcrypt.hash(password , 12)
+            .then(hashedPassword => {
+                const newUser = new User({
+                    username : username,
+                    email : email , 
+                    password : hashedPassword
+                })
+                return newUser.save();
+            })
+            .then(result => {
+                res.redirect('/login');
+            })
         }
     }
     catch(err){

@@ -5,12 +5,15 @@ const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const dotenv = require('dotenv');
+const sessionStore = require('connect-mongodb-session')(session);
 const app = express();
-
-
+dotenv.config();
 
 //VARIABLSE ::
-const mongoURI = "mongodb+srv://mrhashcoder:mansi8101@node-zafk9.mongodb.net/CodeSynx?retryWrites=true&w=majority";
+const mongoURI = process.env.mongoURI;
+const PORT = process.env.PORT;
+console.log(process.env.Session_secret);
 
 app.set('view engine' , 'ejs');
 app.use(bodyParser.urlencoded({extended : true}));
@@ -26,6 +29,17 @@ app.use(authRouter);
 app.use(indexRoute);
 app.use(codeSynxRouter);
 
+//SETTING SESSION
+const store = new sessionStore({
+    uri : mongoURI,
+    collection : 'sessions'
+});
+app.use(session({
+    secret : process.env.Session_secret,
+    resave : false,
+    saveUninitialized:false, 
+    store : store
+}))
 
 //serving static files
 app.use(express.static('public'));
@@ -37,14 +51,13 @@ mongoose.connect(mongoURI , {
     useNewUrlParser : true,
     useUnifiedTopology: true
 }).then(() => {
-    console.log('connectedd');
 })
     .catch(err =>{console.log(err)});
 
 
 //starting server
-var server = app.listen('4000' , ()=>{
-    console.log('server started at 4000');
+var server = app.listen(PORT, ()=>{
+    console.log('server started at ' +  PORT);
 });
 
 
@@ -57,12 +70,13 @@ io.on('connection' , function(socket){
     socket.on('code' , function(data){
         var roomId = data.synxid;
         io.to(roomId).emit('code' , data);
-        //console.log(data);
+        console.log(data);
     });
 
     socket.on('join' , function(data){
+        console.log(data);
         var roomId = data.synxid;        
-        socket.join(roomId);    
+        socket.join(roomId);   
                  
     })
 });
