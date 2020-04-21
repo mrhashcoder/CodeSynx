@@ -24,11 +24,6 @@ const codeSynxRouter = require("./routes/codesynx");
 const authRouter = require('./routes/auth');
 const indexRoute = require('./routes/indexRoute');
 
-//using routes
-
-app.use(authRouter);
-app.use(indexRoute);
-app.use(codeSynxRouter);
 
 //SETTING SESSION
 const store = new sessionStore({
@@ -73,6 +68,13 @@ app.use((req, res, next) => {
 app.use(express.static('public'));
 app.use(flash());
 //setting database
+
+//using routes
+
+app.use(authRouter);
+app.use(indexRoute);
+app.use(codeSynxRouter);
+
 
 //connecting database
 mongoose.connect(mongoURI , {
