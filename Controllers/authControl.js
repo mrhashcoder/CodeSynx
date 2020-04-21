@@ -44,6 +44,36 @@ exports.postSignup = async (req , res ,next ) =>{
 }
 
 exports.postLogin = async (req , res , next) =>{
+    var email = req.body.email;
+    var password = req.body.password;
+    console.log('reach 1');
+    try{
+        var user = await User.findOne({email : email});
+        if(!user){
+            console.log("user not found!!1");
+            res.redirect('/login');
+        }
+        else{
+            const passwordMatch = await bcrypt.compare(password , user.password);
+            if(!passwordMatch){
+                console.log('incorrect password');
+                res.redirect('/login');
+            }
+            else{
+                console.log('password matchedd');
+                console.log(req.session);
+              
+              //  req.session.user = user;
+                //req.session.isLoggedIn = true;
+                //req.session.save();
+                res.redirect('/');
+            }
+        }
+        
+    }catch(err){
+        console.log(err);
+        res.redirect('/login');
+    }
 
 }
 
@@ -64,4 +94,17 @@ exports.getLogin = (req ,res) => {
         pageTitle:'Login',
         isLoggedIn : false
     });   
+}
+
+
+function validateLogin(req){
+    var email = req.body.email;
+    var password = req.body.password;
+
+    if(password)
+        return 0 ;
+    if(email)
+        return 0;
+    
+    return 1;
 }

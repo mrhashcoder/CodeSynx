@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const dotenv = require('dotenv');
 const sessionStore = require('connect-mongodb-session')(session);
+const User = require('./models/User');
 const app = express();
 dotenv.config();
 
@@ -36,10 +37,37 @@ const store = new sessionStore({
 });
 app.use(session({
     secret : process.env.Session_secret,
-    resave : false,
-    saveUninitialized:false, 
+    resave : true,
+    saveUninitialized:true, 
     store : store
 }))
+
+app.use((req , res , next) => {
+    if(!req,session.user){
+        return next();
+    }
+    User.findById(req.session.user._id)
+    .then(user => {
+        if(!user){
+            return next();
+        }
+        req.user = user;
+        next();
+    })
+    .catch(err => {
+        console.log(err);
+        return next();
+    });
+})
+
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    //res.locals.csrfToken = req.csrfToken();
+    if(req.user){
+        res.locals.email = req.user.email;
+    }
+    next();
+});
 
 //serving static files
 app.use(express.static('public'));

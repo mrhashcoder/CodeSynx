@@ -4,7 +4,7 @@ const router = express.Router();
 
 //POST ROUTES
 router.post('/signup' , authControl.postSignup);
-router.post('/login' , );
+router.post('/login' , authControl.postLogin);
 
 
 //GET ROUTES
