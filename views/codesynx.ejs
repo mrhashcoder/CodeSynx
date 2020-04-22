@@ -12,17 +12,17 @@
     </style>
 
 </head>
-<input type="hidden" id="synxId" value="<%= synxid %>">
+<input type="hidden" id="synxId" value="<%= synxId %>">
 <body>
     <div>
         <h1>Welcome to CodeSynx</h1>
     </div>
     <div id="codeBoxParent">
-        <textarea id="codebox" oninput="managerCode()"><p>hello</p></textarea>
+        <textarea id="codebox"><%= code %> </textarea>
     </div>
-    <br><br>
-    <input type="button" value="Save" onclick="saveSynx()" size="10">
+    <button onclick="saveSynx()">save</button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
     <script src = "/scripts/socketSynx.js"></script>
-    <script src="/scripts/saveSynx.js"></script>
+    
+
 </body> 

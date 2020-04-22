@@ -1,14 +1,14 @@
 const link = "http://localhost:4000";
 var socket = io.connect(link);
-
-var synxid = document.getElementById('synxId').value;
-console.log(synxid); 
+var synxId = document.getElementById('synxId').value;
+console.log(synxId); 
 
 socket.emit('join' , {
-    synxid : synxid
+    synxId : synxId
 });
 
 var codebox1 = document.getElementById('codebox');
+
 
 var editor = CodeMirror.fromTextArea(codebox1,{
     mode : 'text',
@@ -22,12 +22,21 @@ editor.setSize("100%", "100%");
 editor.on('inputRead',() => {
     managerCode();
 })
+
 function managerCode(){
     socket.emit('code',{
         code : editor.getValue(),
         cursorPos : editor.getCursor(),
-        synxid : synxid
+        synxId : synxId
     });
+}
+
+function saveSynx(){
+    console.log('yes');
+    socket.emit('save' , {
+        synxId : synxId,
+        code : editor.getValue()
+    });   
 }
 
 socket.on('code', function(data){

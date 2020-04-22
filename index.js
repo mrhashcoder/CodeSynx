@@ -8,6 +8,7 @@ const session = require('express-session');
 const dotenv = require('dotenv');
 const sessionStore = require('connect-mongodb-session')(session);
 const User = require('./models/User');
+const codeSynxModel = require('./models/codeSynx');
 const app = express();
 dotenv.config();
 
@@ -77,6 +78,7 @@ app.use(codeSynxRouter);
 
 //connecting database
 mongoose.connect(mongoURI , {
+    useCreateIndex: true,
     useNewUrlParser : true,
     useUnifiedTopology: true
 }).then(() => {
@@ -91,25 +93,37 @@ var server = app.listen(PORT, ()=>{
 });
 
 
-//settings sockets
-
 
 var io = socket(server);
 io.on('connection' , function(socket){
+    //console.log(socket.request);
+    console.log('connected')
     socket.on('code' , function(data){
-        var roomId = data.synxid;
+        //console.log('change');
+        var roomId = data.synxId;
         io.to(roomId).emit('code' , data);
-        console.log(data);
+        //console.log(data);
     });
 
-    socket.on('join' , function(data){
-        
+    socket.on('join' , function(data){        
         var roomId = data.synxid;        
         socket.join(roomId);   
                  
-    })
-});
+    });
 
+    socket.on('save' ,async function(data){
+        //console.log('save');
+        var synxId = data.synxId;
+        var myquery = {synxId : synxId};
+        var change = {code : data.code};
+        const codeSynx = await codeSynxModel.updateOne(myquery , change , function(err, res){
+            if(err){
+                console.log(err);
+            }
+        });
+        
+    });
+});
 
 
 
