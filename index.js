@@ -15,7 +15,7 @@ dotenv.config();
 //VARIABLSE ::
 const mongoURI = process.env.mongoURI;
 const PORT = process.env.PORT;
-console.log(process.env.Session_secret);
+//console.log(process.env.Session_secret);
 
 app.set('view engine' , 'ejs');
 app.use(bodyParser.urlencoded({extended : true}));
@@ -67,13 +67,13 @@ app.use(flash());
 //getting routes
 const codeSynxRouter = require("./routes/codesynx");
 const authRouter = require('./routes/auth');
-const indexRoute = require('./routes/indexRoute');
+const homeRoute = require('./routes/home');
 
 
 //using routes
 
 app.use(authRouter);
-app.use(indexRoute);
+app.use(homeRoute);
 app.use(codeSynxRouter);
 
 //connecting database
@@ -97,7 +97,7 @@ var server = app.listen(PORT, ()=>{
 var io = socket(server);
 io.on('connection' , function(socket){
     //console.log(socket.request);
-    console.log('connected')
+    //console.log('connected');
     socket.on('code' , function(data){
         //console.log('change');
         var roomId = data.synxId;

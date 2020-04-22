@@ -1,7 +1,4 @@
-const express = require('express');
-const router = express.Router();
-
-router.get('/' , (req , res) => {
+exports.homeContol = (req , res) => {
     console.log("hitt");
     if(req.session.isLoggedIn){
         renderData = {
@@ -12,6 +9,8 @@ router.get('/' , (req , res) => {
     else{
         res.render('index');
     }
-});
+}
 
-module.exports = router;
+exports.mycodes = (req,res) => {
+    
+}

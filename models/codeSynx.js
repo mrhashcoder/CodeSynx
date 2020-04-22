@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const codeSynxSchema = new Schema({ 
+    coder : {
+        type : String
+    },
     synxId : {
         type : String,
         required : true,

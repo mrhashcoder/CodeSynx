@@ -89,14 +89,14 @@ exports.postLogout = (req , res) => {
 
 //GET CONTROLLERSS
 exports.getSignup = (req , res) => {
-    res.render('signup' , {
+    res.render('auth/signup' , {
         isLoggedIn : false,
         pageTitle : "Signup"
     });
 }
 
 exports.getLogin = (req ,res) => {    
-    res.render('login' , {
+    res.render('auth/login' , {
         pageTitle:'Login',
         isLoggedIn : false
     });   
