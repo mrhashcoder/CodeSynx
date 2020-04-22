@@ -14,7 +14,12 @@ const userSchema = new Schema({
     email : {
         type : String,
         required : true
-    }
+    },
+    codeSynxList : [{
+        synxName : String,
+        synxCode : String
+    }]
+
 });
 
 module.exports = mongoose.model('User' , userSchema);

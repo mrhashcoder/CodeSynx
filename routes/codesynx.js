@@ -7,10 +7,10 @@ router.get('/cs' , (req , res) =>{
     //res.send('codesynx visited');
     var synxid = Math.floor(1000 + Math.random() * 9000);
     //console.log(synxid);
-    res.redirect('/cs/' + synxid);
+    res.redirect('/' + synxid);
 });
 
-router.get('/cs/:synxid',(req,res) =>{
+router.get('/:synxid',(req,res) =>{
     //console.log("synx id page visited");
     //console.log(req.params.synxid);
     var synxid = req.params.synxid;

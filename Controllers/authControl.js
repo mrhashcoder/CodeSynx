@@ -1,7 +1,6 @@
 const User =  require('../models/User');
 const bcrypt = require('bcrypt');
 
-
 //POST CONTROLLERSS
 
 exports.postSignup = async (req , res ,next ) =>{
@@ -46,7 +45,7 @@ exports.postSignup = async (req , res ,next ) =>{
 exports.postLogin = async (req , res , next) =>{
     var email = req.body.email;
     var password = req.body.password;
-    console.log('reach 1');
+    //console.log('reach 1');
     try{
         var user = await User.findOne({email : email});
         if(!user){
@@ -60,12 +59,13 @@ exports.postLogin = async (req , res , next) =>{
                 res.redirect('/login');
             }
             else{
-                console.log('password matchedd');
-                console.log(req.session);
+              //  console.log('password matchedd');
+                //console.log(req.session);
               
-              //  req.session.user = user;
-                //req.session.isLoggedIn = true;
-                //req.session.save();
+                req.session.user = user;
+                req.session.isLoggedIn = true;
+                req.session.save();
+                //console.log(req.session);
                 res.redirect('/');
             }
         }
@@ -74,10 +74,16 @@ exports.postLogin = async (req , res , next) =>{
         console.log(err);
         res.redirect('/login');
     }
-
 }
 
-
+exports.postLogout = (req , res) => {
+    req.session.destroy(err => {
+        if(err){
+            console.log(err);
+        }
+        res.redirect('/');
+    })
+}
 
 
 
@@ -89,7 +95,7 @@ exports.getSignup = (req , res) => {
     });
 }
 
-exports.getLogin = (req ,res) => {
+exports.getLogin = (req ,res) => {    
     res.render('login' , {
         pageTitle:'Login',
         isLoggedIn : false

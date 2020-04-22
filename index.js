@@ -19,11 +19,6 @@ console.log(process.env.Session_secret);
 app.set('view engine' , 'ejs');
 app.use(bodyParser.urlencoded({extended : true}));
 
-//getting routes
-const codeSynxRouter = require("./routes/codesynx");
-const authRouter = require('./routes/auth');
-const indexRoute = require('./routes/indexRoute');
-
 
 //SETTING SESSION
 const store = new sessionStore({
@@ -32,13 +27,13 @@ const store = new sessionStore({
 });
 app.use(session({
     secret : process.env.Session_secret,
-    resave : true,
-    saveUninitialized:true, 
+    resave : false,
+    saveUninitialized : false, 
     store : store
 }))
 
 app.use((req , res , next) => {
-    if(!req,session.user){
+    if(!req.session.user){
         return next();
     }
     User.findById(req.session.user._id)
@@ -67,7 +62,12 @@ app.use((req, res, next) => {
 //serving static files
 app.use(express.static('public'));
 app.use(flash());
-//setting database
+
+//getting routes
+const codeSynxRouter = require("./routes/codesynx");
+const authRouter = require('./routes/auth');
+const indexRoute = require('./routes/indexRoute');
+
 
 //using routes
 
@@ -75,12 +75,12 @@ app.use(authRouter);
 app.use(indexRoute);
 app.use(codeSynxRouter);
 
-
 //connecting database
 mongoose.connect(mongoURI , {
     useNewUrlParser : true,
     useUnifiedTopology: true
 }).then(() => {
+    console.log('dataBase connected!!');
 })
     .catch(err =>{console.log(err)});
 
