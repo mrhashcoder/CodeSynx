@@ -3,20 +3,19 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/cs' , (req , res) =>{
-    console.log('codesynx visited');
-    //res.send('codesynx visited');
-    var synxid = Math.floor(1000 + Math.random() * 9000);
-    //console.log(synxid);
+    var synxid = getId();
     res.redirect('/' + synxid);
 });
 
 router.get('/:synxid',(req,res) =>{
-    //console.log("synx id page visited");
-    //console.log(req.params.synxid);
     var synxid = req.params.synxid;
     res.render('../views/codesynx' , {
         "synxid" : synxid
     });
 });
+
+function getId() {
+    return Math.random().toString(36).substr(3, 5);
+};
 
 module.exports = router;

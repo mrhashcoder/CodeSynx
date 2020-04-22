@@ -96,7 +96,6 @@ var server = app.listen(PORT, ()=>{
 
 var io = socket(server);
 io.on('connection' , function(socket){
-    //console.log("made a connection :" + socket.id);
     socket.on('code' , function(data){
         var roomId = data.synxid;
         io.to(roomId).emit('code' , data);
@@ -104,7 +103,7 @@ io.on('connection' , function(socket){
     });
 
     socket.on('join' , function(data){
-        console.log(data);
+        
         var roomId = data.synxid;        
         socket.join(roomId);   
                  
