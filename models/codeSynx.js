@@ -15,6 +15,6 @@ const codeSynxSchema = new Schema({
         required:false
     },
 },{timestamps : true});
-codeSynxSchema.index({createdAt: 1},{expireAfterSeconds: 86400});
+codeSynxSchema.index({createdAt: 1},{expireAfterSeconds : 86400 });
 
-module.exports = mongoose.model('codesynx' , codeSynxSchema);
+module.exports = mongoose.model('codeSave' , codeSynxSchema);

@@ -65,15 +65,16 @@ app.use(express.static('public'));
 app.use(flash());
 
 //getting routes
+
+const homeRoute = require('./routes/home');
 const codeSynxRouter = require("./routes/codesynx");
 const authRouter = require('./routes/auth');
-const homeRoute = require('./routes/home');
 
 
 //using routes
 
-app.use(authRouter);
 app.use(homeRoute);
+app.use(authRouter);
 app.use(codeSynxRouter);
 
 //connecting database

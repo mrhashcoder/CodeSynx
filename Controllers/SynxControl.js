@@ -13,14 +13,16 @@ exports.codeSynx = async(req,res) =>{
         const codeSynx = await codeSynxModel.findOne({synxId : synxId});
         if(codeSynx){            
             //console.log('record already hai');
-            if(req.session.isLoggedIn){
-                await codeSynxModel.updateOne({synxId : synxId},{coder : req.session.user.username},(err , res) =>{
-                    if(err){
-                        console.log(err);
-                    }
-                    //console.log(res);
-                });
-            }            
+            if(!codeSynx.coder){
+                if(req.session.isLoggedIn){
+                    await codeSynxModel.updateOne({synxId : synxId},{coder : req.session.user.username},(err , res) =>{
+                        if(err){
+                            console.log(err);
+                        }
+                        //console.log(res);
+                    });
+                }   
+            }         
             //console.log(codeSynx.coder);
             res.render('codesynx/codesynx' , {
                 synxId : synxId,
@@ -29,10 +31,18 @@ exports.codeSynx = async(req,res) =>{
         }
         else{
             console.log('new record');
+            if(req.session.isLoggedIn){
+                coder = req.session.user.username
+            }
+            else{
+                coder = null
+            }
             const newCodeSynx = new codeSynxModel({
                 synxId : synxId,
-                code : "hello there"
+                code : "hello there",
+                coder : coder
             });
+            console.log(newCodeSynx);
             await newCodeSynx.save()
             .then(() => {
                 res.render('codesynx/codesynx',{
