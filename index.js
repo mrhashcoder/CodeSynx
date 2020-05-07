@@ -97,23 +97,18 @@ var server = app.listen(PORT, ()=>{
 
 var io = socket(server);
 io.on('connection' , function(socket){
-    //console.log(socket.request);
-    //console.log('connected');
     socket.on('code' , function(data){
-        //console.log('change');
         var roomId = data.synxId;
-        io.to(roomId).emit('code' , data);
+        io.sockets.in(roomId).emit('code' , data);
         //console.log(data);
     });
 
     socket.on('join' , function(data){        
-        var roomId = data.synxid;        
-        socket.join(roomId);   
-                 
+        var roomId = data.synxId;
+        socket.join(roomId);           
     });
 
     socket.on('save' ,async function(data){
-        //console.log('save');
         var synxId = data.synxId;
         var myquery = {synxId : synxId};
         var change = {code : data.code};

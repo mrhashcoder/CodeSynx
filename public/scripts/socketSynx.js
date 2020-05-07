@@ -32,7 +32,7 @@ function managerCode(){
 }
 
 function saveSynx(){
-    console.log('yes');
+    //console.log('yes');
     socket.emit('save' , {
         synxId : synxId,
         code : editor.getValue()
@@ -40,6 +40,7 @@ function saveSynx(){
 }
 
 socket.on('code', function(data){
+    //console.log('recived!!1');
     editor.setValue(data.code);
     editor.setCursor(data.cursorPos);
 });
