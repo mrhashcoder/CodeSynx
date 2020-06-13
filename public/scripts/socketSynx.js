@@ -1,4 +1,4 @@
-const link = "http://localhost:4000";
+const link = "http://codesynx.herokuapp.com";
 var socket = io.connect(link);
 var synxId = document.getElementById('synxId').value;
 console.log(synxId); 
