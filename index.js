@@ -99,7 +99,7 @@ var io = socket(server);
 io.on('connection' , function(socket){
     socket.on('code' , function(data){
         var roomId = data.synxId;
-        io.sockets.in(roomId).emit('code' , data);
+        socket.broadcast.to(roomId).emit('code' , data);
         //console.log(data);
     });
 
