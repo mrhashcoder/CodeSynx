@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const dotenv = require('dotenv');
 const sessionStore = require('connect-mongodb-session')(session);
-const User = require('./models/User');
+const User = require('./models/user');
 const codeSynxModel = require('./models/codeSynx');
 const app = express();
 dotenv.config();
